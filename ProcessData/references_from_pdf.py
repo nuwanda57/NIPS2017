@@ -1,5 +1,5 @@
 # Bad Articles
-# 6664, 7017, 7088, 7131
+# 6664, 7017, 7088, 7131, 7263
 
 import json
 import re
@@ -122,7 +122,6 @@ def deal_with_PARENTHESIS_YEAR():
             else:
                 text = text[cut1 + 11:]
             bibliography = re.split("\n", text)
-            ind = 1
             new_bibliography = []
             new_bibliography.append(bibliography[0])
             for ind in range(1, len(bibliography)):
@@ -133,11 +132,10 @@ def deal_with_PARENTHESIS_YEAR():
             d_bibl = {}
             for cnt in range(len(new_bibliography)):
                 if (len(new_bibliography[cnt]) > 15):
+                    new_bibliography[cnt] = new_bibliography[cnt].replace("\n", " ")
                     d_bibl[cnt + 1] = new_bibliography[cnt]
             json.dump(d_bibl, f)
             f.close()
-
-
 
 def categorize_rest_YEAR_IN_THE_END():
     with open("articles_refs.json") as i_file:
@@ -188,10 +186,14 @@ def deal_with_YEAR_IN_THE_END():
                 text = text[cut2 + 9:]
             else:
                 text = text[cut1 + 11:]
+            years = re.findall("[^0-9][1-2][0-9][0-9][0-9][^0-9]{0,1}[^~]{0,4}\\n", text)
             bibliography = re.split("[^0-9][1-2][0-9][0-9][0-9][^0-9]{0,1}[^~]{0,4}\\n", text)
             d_bibl = {}
             for cnt in range(len(bibliography)):
                 if (len(bibliography[cnt]) > 15):
+                    if (cnt < len(years)):
+                        bibliography[cnt] = bibliography[cnt] + years[cnt]
+                    bibliography[cnt] = bibliography[cnt].replace("\n", " ")
                     d_bibl[cnt + 1] = bibliography[cnt]
             json.dump(d_bibl, f)
             f.close()
