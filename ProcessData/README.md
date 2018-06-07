@@ -16,3 +16,11 @@ sections are:
 <li>reviews</li>
 <li>bibliography</li>
 </ul>
+
+## create_pandas_articles
+
+## google_bibliography
+useful code, but not in this case though
+
+## bibliography_find
+the same, but using scholar
