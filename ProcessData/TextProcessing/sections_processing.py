@@ -396,8 +396,8 @@ def separate_ack(text, ref):
             if cut <= 15:
                 return text
             else:
-                part1 = sections[i][cut:]
-                part2 = sections[i][:cut]
+                part1 = sections[i][:cut]
+                part2 = sections[i][cut:]
                 sections.pop(i)
                 sections.insert(i, part1)
                 sections.insert(i + 1, part2)
@@ -450,8 +450,8 @@ def separate_intro(text, ref):
         if cut <= 15:
             return text
         else:
-            part1 = sections[i][cut:]
-            part2 = sections[i][:cut]
+            part1 = sections[i][:cut]
+            part2 = sections[i][cut:]
             sections.pop(i)
             sections.insert(i, part1)
             sections.insert(i + 1, part2)
@@ -545,14 +545,59 @@ def subsection_division():
         cnt += 1
 
 
+def separate1(text, ref, header):
+    cut = text.find("\n" + header + " ")
+    if cut == -1:
+        return text
+    if text[cut + 1:].find("\n" + header + " ") != -1:
+        print("found several", header + " ", ref)
+        return text
+    sections = text.split("\n\n\n")
+    i = 0
+    while i < len(sections):
+        cut = sections[i].find("\n" + header + " ")
+        if cut == -1:
+            i += 1
+            continue
+        if cut <= 15:
+            return text
+        else:
+            if sections[i][cut - 1].isdigit() and sections[i][cut - 2] == "." and sections[i][cut - 3].isdigit():
+                print("is subsection", header, ref)
+                return text
+            if i == len(sections) - 1:
+                if not ask(ref, header, sections[i][:30]):
+                    return text
+            part1 = sections[i][:cut]
+            part2 = sections[i][cut + 1:]
+            sections.pop(i)
+            sections.insert(i, part1)
+            sections.insert(i + 1, part2)
+            print("partition occured", header, ref)
+            return "\n\n\n".join(sections)
+    return "\n\n\n".join(sections)
+
+
+def separate(header):
+    with open("./../articles_refs.json") as i_file:
+        articles_refs = json.load(i_file)
+    for ref in articles_refs:
+        pdf_path = 'OnlyText7/' + ref[29:-3] + "txt"
+        with open(pdf_path) as f_in:
+            text = f_in.read()
+        text = separate1(text, ref, header)
+        pdf_path = 'OnlyText7/' + ref[29:-3] + "txt"
+        write_text_to_file(text, pdf_path)
+
+
 def section_processing():
     create_statistics()
-    show_section_statistics()
+    # show_section_statistics()
     update_text_based_on_statistics()
     create_statistics()
     show_section_statistics()
     for i in SECTION_STATISTICS:
-        if i[0] < 7:
+        if i[0] < 6:
             break
         POPULAR_SECTIONS.add(i[1])
     divide()
@@ -561,6 +606,14 @@ def section_processing():
     separate_ackno()
     separate_introes()
     subsection_division()
+    # copy all files from OnlyText6 into OnlyText7
+    section_to_div = {
+        "Abstract", "Abstracts", "References", "Related Works.", "Related Works\n", "Conclusion.", "Conclusion\n",
+        "Conclusions.", "Conclusions\n", "Related Work.", "Related Work\n", "Related work.", "Related work\n"
+    }
+    for i in section_to_div:
+        print(i, "\n\n")
+        separate(i)
 
 
 def main():
