@@ -42,9 +42,10 @@ def show_section_statistics():
 
 def update_text_based_on_statistics_1(text):
     sections = text.split("\n\n\n")
-    ackno = { "\x0cAcknowledgments", "\x0cAcknowledgements",
-              "Acknowledgements", "Acknowledgments", "\x0cAcknowledgement",
-              "Acknowledgment", "\x0cAcknowledgment"
+    ackno = {
+        "\x0cAcknowledgments", "\x0cAcknowledgements",
+        "Acknowledgements", "Acknowledgments", "\x0cAcknowledgement",
+        "Acknowledgment", "\x0cAcknowledgment"
     }
     for i in range(len(sections)):
         s = sections[i]
@@ -126,6 +127,7 @@ def update_text_based_on_statistics_2(text):
         i += 1
     return "\n\n\n".join(sections)
 
+
 def update_text_based_on_statistics_3(text):
     sections = text.split("\n\n\n")
     i = 1
@@ -173,6 +175,7 @@ def update_text_based_on_statistics_4(text):
                 break
         i += 1
     return "\n\n\n".join(sections)
+
 
 def update_text_based_on_statistics():
     var_sections_statistics = {}
@@ -260,7 +263,6 @@ def divide_text(text):
             sections.pop(i)
             continue
         if name in POPULAR_SECTIONS:
-            # print("popular")
             prev = number
             i += 1
             continue
@@ -270,36 +272,31 @@ def divide_text(text):
                 sections[i - 1] += s
                 sections.pop(i)
                 flag = True
-                # print("bad start")
                 break
         if flag:
             flag = False
             continue
-        if (number - prev == 1):
+        if number - prev == 1:
             words = name.split()
-            if (len(words) <= 8):
-                if (count_numbers(name) <= 2):
+            if len(words) <= 8:
+                if count_numbers(name) <= 2:
                     if average_word_length(name) > 3:
-                        if (count_special(name) <= 4):
-                            # print("good")
+                        if count_special(name) <= 4:
                             prev = number
                             i += 1
                             continue
         if number - prev <= 2 and sections[i].find(str(number) + "." + "1") != -1\
-                                                    and sections[i].find(str(number) + "." + "2") != -1:
+                              and sections[i].find(str(number) + "." + "2") != -1:
             prev = number
             i += 1
-            # print("great")
             continue
         if number - prev > 3:
-            # print("big difference")
             sections[i - 1] += "\n"
             sections[i - 1] += s
             sections.pop(i)
             continue
         words = name.split()
         if len(words) > 12:
-            # print("long")
             sections[i - 1] += "\n"
             sections[i - 1] += s
             sections.pop(i)
@@ -319,7 +316,7 @@ def divide():
         articles_refs = json.load(i_file)
     cnt = 0
     for ref in articles_refs:
-        if (cnt > 100):
+        if cnt > 100:
             break
         try:
             f = open("OnlyText2/" + ref[29:-3] + "txt")
@@ -336,16 +333,234 @@ def divide():
         cnt += 1
 
 
+def separate_ref(text):
+    sections = text.split("\n\n\n")
+    i = len(sections) - 1
+    cut1 = sections[i].rfind("Bibliography")
+    cut2 = sections[i].rfind("References")
+    cut = max(cut1, cut2)
+    if cut <= 15:
+        return text
+    part1 = sections[i][:cut]
+    part2 = sections[i][cut:]
+    sections.pop()
+    sections.append(part1)
+    sections.append(part2)
+    return "\n\n\n".join(sections)
+
+
+def separate_references():
+    with open("./../articles_refs.json") as i_file:
+        articles_refs = json.load(i_file)
+    for ref in articles_refs:
+        try:
+            f = open("OnlyText3/" + ref[29:-3] + "txt")
+            f.close()
+            continue
+        except:
+            pdf_path = 'OnlyText2/' + ref[29:-3] + "txt"
+        with open(pdf_path) as f_in:
+            text = f_in.read()
+        text = separate_ref(text)
+        if text is None:
+            continue
+        pdf_path = 'OnlyText3/' + ref[29:-3] + "txt"
+        write_text_to_file(text, pdf_path)
+
+
+def separate_ack(text, ref):
+    cut1 = text.find("\nAcknowledgement")
+    if cut1 == -1:
+        cut1 = text.find("\nAcknowledgment")
+        if cut1 == -1:
+            return text
+        if text[cut1 + 1:].find("\nAcknowledgment") != -1:
+            print(ref)
+            return None
+    else:
+        if text[cut1 + 1:].find("\nAcknowledgment") != -1:
+            print(ref)
+            return None
+        if text[cut1 + 1:].find("\nAcknowledgement") != -1:
+            print(ref)
+            return None
+    sections = text.split("\n\n\n")
+    i = 0
+    while i < len(sections):
+        cut = sections[i].find("\nAcknowledgement")
+        if cut == -1:
+            cut = sections[i].find("\nAcknowledgment")
+            if cut == -1:
+                i += 1
+                continue
+            if cut <= 15:
+                return text
+            else:
+                part1 = sections[i][cut:]
+                part2 = sections[i][:cut]
+                sections.pop(i)
+                sections.insert(i, part1)
+                sections.insert(i + 1, part2)
+                return "\n\n\n".join(sections)
+        if cut <= 15:
+            return text
+        else:
+            part1 = sections[i][cut:]
+            part2 = sections[i][:cut]
+            sections.pop(i)
+            sections.insert(i, part1)
+            sections.insert(i + 1, part2)
+            return "\n\n\n".join(sections)
+    return "\n\n\n".join(sections)
+
+
+def separate_ackno():
+    with open("./../articles_refs.json") as i_file:
+        articles_refs = json.load(i_file)
+    for ref in articles_refs:
+        try:
+            f = open("OnlyText4/" + ref[29:-3] + "txt")
+            f.close()
+            continue
+        except:
+            pdf_path = 'OnlyText3/' + ref[29:-3] + "txt"
+        with open(pdf_path) as f_in:
+            text = f_in.read()
+        text = separate_ack(text, ref)
+        if text is None:
+            continue
+        pdf_path = 'OnlyText4/' + ref[29:-3] + "txt"
+        write_text_to_file(text, pdf_path)
+
+
+def separate_intro(text, ref):
+    cut = text.find("\nIntroduction")
+    if cut == -1:
+        return text
+    if text[cut + 1:].find("\nIntroduction") != -1:
+        print(ref)
+        return None
+    sections = text.split("\n\n\n")
+    i = 0
+    while i < len(sections):
+        cut = sections[i].find("\nIntroduction")
+        if cut == -1:
+            i += 1
+            continue
+        if cut <= 15:
+            return text
+        else:
+            part1 = sections[i][cut:]
+            part2 = sections[i][:cut]
+            sections.pop(i)
+            sections.insert(i, part1)
+            sections.insert(i + 1, part2)
+            return "\n\n\n".join(sections)
+    return "\n\n\n".join(sections)
+
+
+def separate_introes():
+    with open("./../articles_refs.json") as i_file:
+        articles_refs = json.load(i_file)
+    for ref in articles_refs:
+        try:
+            f = open("OnlyText5/" + ref[29:-3] + "txt")
+            f.close()
+            continue
+        except:
+            pdf_path = 'OnlyText4/' + ref[29:-3] + "txt"
+        with open(pdf_path) as f_in:
+            text = f_in.read()
+        text = separate_ack(text, ref)
+        if text is None:
+            continue
+        pdf_path = 'OnlyText5/' + ref[29:-3] + "txt"
+        write_text_to_file(text, pdf_path)
+
+
+def subsection_div(text):
+    sections = text.split("\n\n\n")
+    prev2 = 0
+    for i in range(0, len(sections)):
+        sec = sections[i]
+        try:
+            number = int(sec[0])
+        except:
+            number = None
+        subsections = sec.split("\n\n")
+        j = 1
+        while j < len(subsections):
+            subsec = subsections[j]
+            n1 = int(subsec[0])
+            n2 = int(subsec[2])
+            if n1 == number:
+                prev2 = n2
+                j += 1
+                continue
+            if n2 == prev2 + 1:
+                prev2 = n2
+                j += 1
+                continue
+            if number is not None and n2 == 1 and n1 - number <= 2:
+                prev2 = n2
+                j += 1
+                continue
+            if n2 - prev2 >= 3:
+                subsections[j - 1] += "\n"
+                subsections[j - 1] += subsections[j]
+                subsections.pop(j)
+                continue
+            else:
+                if ask(subsec, n1, n2):
+                    prev2 = n2
+                    j += 1
+                    continue
+                else:
+                    subsections[j - 1] += "\n"
+                    subsections[j - 1] += subsections[j]
+                    subsections.pop(j)
+        sections[i] = "\n\n".join(subsections)
+    return "\n\n\n".join(sections)
+
+
+def subsection_division():
+    with open("./../articles_refs.json") as i_file:
+        articles_refs = json.load(i_file)
+    cnt = 0
+    for ref in articles_refs:
+        if cnt == 50:
+            break
+        try:
+            f = open("OnlyText6/" + ref[29:-3] + "txt")
+            f.close()
+            continue
+        except:
+            pdf_path = 'OnlyText5/' + ref[29:-3] + "txt"
+        with open(pdf_path) as f_in:
+            text = f_in.read()
+        print(ref)
+        text = subsection_div(text)
+        pdf_path = 'OnlyText6/' + ref[29:-3] + "txt"
+        write_text_to_file(text, pdf_path)
+        cnt += 1
+
+
 def section_processing():
     create_statistics()
-    # show_section_statistics()
+    show_section_statistics()
     update_text_based_on_statistics()
     create_statistics()
+    show_section_statistics()
     for i in SECTION_STATISTICS:
         if i[0] < 7:
             break
         POPULAR_SECTIONS.add(i[1])
     divide()
+    # Now we have OnlyText2
+    separate_references()
+    separate_ackno()
+    separate_introes()
+    subsection_division()
 
 
 def main():
