@@ -24,6 +24,7 @@ def get_article_refs():
     with open("articles_pages.json", "w") as o_file:
         json.dump(articles_pages, o_file)
 
+        
 def download_articles():
     with open("articles_refs.json") as i_file:
         articles_refs = json.load(i_file)
