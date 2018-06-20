@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import json
 import urllib.request
 
+
 def get_article_refs():
     main_page = requests.get("https://papers.nips.cc/book/advances-in-"
                        "neural-information-processing-systems-30-2017")
@@ -33,6 +34,7 @@ def download_articles():
         except:
             urllib.request.urlretrieve(ref, "Articles/" + ref[29:])
 
+            
 def download_abstracts():
     with open("articles_pages.json") as i_file:
         articles_pages = json.load(i_file)
@@ -47,6 +49,7 @@ def download_abstracts():
             with open("Abstracts/" + page_ref[29:] + ".txt", "w") as o_file:
                 o_file.write(abstract.text)
 
+                
 def download_reviews():
     with open("articles_pages.json") as i_file:
         articles_pages = json.load(i_file)
@@ -63,11 +66,13 @@ def download_reviews():
             raise 42
         urllib.request.urlretrieve("https:" + review_page_ref, "Reviews/" + page_ref[29:] + ".html")
 
+        
 def main():
     get_article_refs()
     download_articles()
     download_abstracts()
     download_reviews()
 
+    
 if __name__ == "__main__":
     main()
