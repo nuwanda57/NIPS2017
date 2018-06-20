@@ -1,8 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
 import json
-import os
-import scholarly
 
 
 def google(q):
@@ -11,7 +9,6 @@ def google(q):
     url = 'https://www.google.de/search?q=' + q + '&sourceid=chrome&ie=UTF-8'
     r = s.get(url)
     soup = BeautifulSoup(r.text, "html.parser")
-    # print(soup.prettify())
     output = []
     cnt = 0
     for searchWrapper in soup.find_all('h3'):
@@ -49,11 +46,7 @@ def add_links_to_articles():
 
 
 def main():
-    # add_links_to_articles()
-    print(google("Arnold, B. C., Castillo, E., Sarabia, "
-                 "J. M., et al. (2001). Conditionally specified distributions: "
-                 "an introduction(with comments and a rejoinder by the authors). "
-                 "Statistical Science, 16(3):249\u2013274."))
+    add_links_to_articles()
 
 
 if __name__ == "__main__":
