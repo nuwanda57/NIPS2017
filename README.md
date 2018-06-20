@@ -5,6 +5,10 @@ It also can be used as a basis for preprocessing publications from the [previous
 
 All ready files can be found [`here`](https://drive.google.com/open?id=1LCdSrh--qPX5myem1fh6lWfH3Qv5hmgq)
 
+Related repositories:
+  - https://github.com/artonson/scrape-conference
+
+
 ## Requirements
 - Python 3
 - Python 3 packages (all can be install using `pip install [package_name]`):
