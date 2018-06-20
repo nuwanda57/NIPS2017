@@ -1,9 +1,9 @@
 # Bad Articles
 # 6664, 7017, 7088, 7131, 7263
-
 import json
 import re
 import subprocess
+
 
 def text_from_pdf(pdf_path):
     subprocess.call(["pdftotext", pdf_path, "temp.txt"])
@@ -11,6 +11,7 @@ def text_from_pdf(pdf_path):
     text = f.read()
     f.close()
     return text
+
 
 def categorize_main():
     with open("articles_refs.json") as i_file:
@@ -41,6 +42,7 @@ def categorize_main():
     json.dump(s, f)
     f.close()
 
+    
 def create_ref_texts_main():
     with open("ReferencesStaff/CategoryMAIN.json") as i_file:
         articles_refs = json.load(i_file)
@@ -71,6 +73,7 @@ def create_ref_texts_main():
             json.dump(bibliography_dict, f)
             f.close()
 
+            
 def categorize_rest_PARENTHESIS_YEAR():
     with open("articles_refs.json") as i_file:
         articles_refs = json.load(i_file)
@@ -100,6 +103,7 @@ def categorize_rest_PARENTHESIS_YEAR():
     json.dump(s, f)
     f.close()
 
+    
 def deal_with_PARENTHESIS_YEAR():
     with open("ReferencesStaff/CategoryBIBLIOGRAPHY(YEAR).json") as i_file:
         articles_refs = json.load(i_file)
@@ -137,6 +141,7 @@ def deal_with_PARENTHESIS_YEAR():
             json.dump(d_bibl, f)
             f.close()
 
+            
 def categorize_rest_YEAR_IN_THE_END():
     with open("articles_refs.json") as i_file:
         articles_refs = json.load(i_file)
@@ -165,6 +170,7 @@ def categorize_rest_YEAR_IN_THE_END():
     json.dump(s, f)
     f.close()
 
+    
 def deal_with_YEAR_IN_THE_END():
     with open("ReferencesStaff/CategoryBIBLIOGRAPHY_YEAR_IN_THE_END.json") as i_file:
         articles_refs = json.load(i_file)
@@ -198,6 +204,7 @@ def deal_with_YEAR_IN_THE_END():
             json.dump(d_bibl, f)
             f.close()
 
+            
 def show_rests():
     print("All Done, but:")
     with open("articles_refs.json") as i_file:
@@ -219,5 +226,6 @@ def main():
     deal_with_YEAR_IN_THE_END()
     show_rests()
 
+    
 if __name__ == "__main__":
     main()
