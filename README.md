@@ -62,7 +62,7 @@ Scripts related to collecting data are located in [ProcessData](https://github.c
 
 ### CSV Format
 
-4) [`folder_main_table.py`](https://github.com/nuwanda57/NIPS2017/blob/master/ProcessData/folder_main_table.py), [`location_main_table.py`](https://github.com/nuwanda57/NIPS2017/blob/master/ProcessData/location_main_table.py), [`visual_main_table.py`](https://github.com/nuwanda57/NIPS2017/blob/master/ProcessData/visual_main_table.py) create different versions of representation of resultive data.
+1) [`folder_main_table.py`](https://github.com/nuwanda57/NIPS2017/blob/master/ProcessData/folder_main_table.py), [`location_main_table.py`](https://github.com/nuwanda57/NIPS2017/blob/master/ProcessData/location_main_table.py), [`visual_main_table.py`](https://github.com/nuwanda57/NIPS2017/blob/master/ProcessData/visual_main_table.py) create different versions of representation of resultive data.
 
 ### Additional Scripts/Files
 
