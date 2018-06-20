@@ -1,8 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
 import json
-import os
-import scholarly
 
 def google(q):
     s = requests.Session()
@@ -26,17 +24,11 @@ def add_links_to_articles():
         new_dict = {}
         with open("ReferencesText/" + articles_pages[i][29:] + ".json") as f:
             bibliography = json.load(f)
-        # print(bibliography)
         for j in range(1, len(bibliography) + 1):
-            # print(bibliography[str(j)])
             print(google(bibliography[str(j)]))
-            # new_dict[j] = (bibliography[j], google(bibliography[j])[0]['url'])
-            break
-        # print(new_dict)
-        break
 
 def main():
-    print(google("monkey"))
+    add_links_to_articles()
 
 if __name__ == "__main__":
     main()
