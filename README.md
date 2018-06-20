@@ -25,26 +25,26 @@ All ready files can be found [`here`](https://drive.google.com/open?id=1LCdSrh--
 
 Scripts related to collecting data are located in [GetData](https://github.com/nuwanda57/NIPS2017/tree/master/GetData) folder.
 
-1) [`dovnload.py`](https://github.com/nuwanda57/NIPS2017/blob/master/GetData/download.py) provides functionality to:
+1) [`download.py`](https://github.com/nuwanda57/NIPS2017/blob/master/GetData/download.py) provides functionality to:
   - collect all references to the publications into **articles_refs.json** file (*appears in the working directory*)
   - collect all the articles names into **articles_pages.json** file (*appears in the working directory*)
-  - download the publications texts into **Articles** directory (*the folder must be created before script execution*)
-  - download the abstracts into **Abstracts** directory (*the folder must be created before script execution*)
-  - download the reviews into **Reviews** directory (*the folder must be created before script execution*)
+  - download the publications texts into **Articles** directory (*the folder must be created before the script execution*)
+  - download the abstracts into **Abstracts** directory (*the folder must be created before the script execution*)
+  - download the reviews into **Reviews** directory (*the folder must be created before the script execution*)
   
 2) [`authors.py`](https://github.com/nuwanda57/NIPS2017/blob/master/GetData/authors.py) provides functionality to:
-  - save all the authors names into json files in **Authors1** directory (*the folder must be created before script execution*)
+  - save all the authors names into json files in **Authors1** directory (*the folder must be created before the script execution*)
 
 ### Processing Data
 
 Scripts related to collecting data are located in [ProcessData](https://github.com/nuwanda57/NIPS2017/tree/master/ProcessData) folder.
 
 1) [`divide_articles.py`](https://github.com/nuwanda57/NIPS2017/blob/master/ProcessData/divide_articles.py) (The script must be executed in the directory where **articles_refs.json**, **Articles**, **Reviews** are located.) provides functionality to:
-  - convert pdf files into txt files and save them into **ArticleText** directory (*the folder must be created before script execution*)
-  - convert reviews from html format into txt files and save them into **ReviewText** directory (*the folder must be created before script execution*)
+  - convert pdf files into txt files and save them into **ArticleText** directory (*the folder must be created before the script execution*)
+  - convert reviews from html format into txt files and save them into **ReviewText** directory (*the folder must be created before the script execution*)
 
 #### Text Processing
-2) [`TextProcessing/add_empty_line_before_number.py`](https://github.com/nuwanda57/NIPS2017/blob/master/ProcessData/TextProcessing/add_empty_line_before_number.py) makes text files more readable and easy-to-process. The path to **articles_refs.json** and **ArticleText** mist be `./..`. In the working directory a folter **OnlyText1** must be created.
+2) [`TextProcessing/add_empty_line_before_number.py`](https://github.com/nuwanda57/NIPS2017/blob/master/ProcessData/TextProcessing/add_empty_line_before_number.py) makes text files more readable and easy-to-process. The path to **articles_refs.json** and **ArticleText** mist be `./..`. In the working directory a folder **OnlyText1** must be created.
 
 3) [`TextProcessing/section_processing.py`](https://github.com/nuwanda57/NIPS2017/blob/master/ProcessData/TextProcessing/sections_processing.py) makes text files more readable and easy-to-process. Must be executed in the same directory as the previous script. Directories **OnlyText1**, **2**, **3**, **4**, **5**, **6**, **7** and **OnlyText** must be created before the execution. Divides text into sections (3 line breaks) and subsections (2 line breaks). Not 100% accurate division. Actions from user are required: look for questions on a command line and answer 0 - *No*, 1 - *Yes* from a keyboard. After the execution copy all files from the **OnlyText7** directory into **OnlyText** directory.
 
