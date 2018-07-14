@@ -44,7 +44,7 @@ def parse_review_html(path, o_path):
         with open(path) as f_in:
             soup = BeautifulSoup(f_in, "html.parser")
     names = soup.find_all("h3")
-    reviews = soup.find_all("div", attrs={"style" : "white-space: pre-wrap;"})
+    reviews = soup.find_all("div", attrs={"style": "white-space: pre-wrap;"})
     text = ""
     for i in range(len(names)):
         text += names[i].get_text()

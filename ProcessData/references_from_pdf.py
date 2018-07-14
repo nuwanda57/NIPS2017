@@ -26,17 +26,17 @@ def categorize_main():
             text = text_from_pdf(pdf_path)
             cut1 = text.rfind("Bibliography")
             cut2 = text.rfind("References")
-            if (cut1 == -1):
+            if cut1 == -1:
                 text = text[cut2 + 9:]
-            elif (cut2 == -1):
+            elif cut2 == -1:
                 text = text[cut1 + 11:]
-            elif (cut2 > cut1):
+            elif cut2 > cut1:
                 text = text[cut2 + 9:]
             else:
                 text = text[cut1 + 11:]
             text = text.replace("\n", " ")
             bibliography = re.findall("\[[0-9]+\]", text)
-            if (len(bibliography) >= 5):
+            if len(bibliography) >= 5:
                 s.append(ref[29:-3])
     f = open("ReferencesStaff/CategoryMAIN.json", "w")
     json.dump(s, f)
@@ -56,11 +56,11 @@ def create_ref_texts_main():
             text = text_from_pdf(pdf_path)
             cut1 = text.rfind("Bibliography")
             cut2 = text.rfind("References")
-            if (cut1 == -1):
+            if cut1 == -1:
                 text = text[cut2 + 9:]
-            elif (cut2 == -1):
+            elif cut2 == -1:
                 text = text[cut1 + 11:]
-            elif (cut2 > cut1):
+            elif cut2 > cut1:
                 text = text[cut2 + 9:]
             else:
                 text = text[cut1 + 11:]
@@ -87,17 +87,17 @@ def categorize_rest_PARENTHESIS_YEAR():
             text = text_from_pdf(pdf_path)
             cut1 = text.rfind("Bibliography")
             cut2 = text.rfind("References")
-            if (cut1 == -1):
+            if cut1 == -1:
                 text = text[cut2 + 9:]
-            elif (cut2 == -1):
+            elif cut2 == -1:
                 text = text[cut1 + 11:]
-            elif (cut2 > cut1):
+            elif cut2 > cut1:
                 text = text[cut2 + 9:]
             else:
                 text = text[cut1 + 11:]
             text = text.replace("\n", " ")
             bibliography = re.findall("\([1-2][0-9][0-9][0-9]\)", text)
-            if (len(bibliography) >= 10):
+            if len(bibliography) >= 10:
                 s.append(ref[29:-3])
     f = open("ReferencesStaff/CategoryBIBLIOGRAPHY(YEAR).json", "w")
     json.dump(s, f)
@@ -117,11 +117,11 @@ def deal_with_PARENTHESIS_YEAR():
             text = text_from_pdf(pdf_path)
             cut1 = text.rfind("Bibliography")
             cut2 = text.rfind("References")
-            if (cut1 == -1):
+            if cut1 == -1:
                 text = text[cut2 + 9:]
-            elif (cut2 == -1):
+            elif cut2 == -1:
                 text = text[cut1 + 11:]
-            elif (cut2 > cut1):
+            elif cut2 > cut1:
                 text = text[cut2 + 9:]
             else:
                 text = text[cut1 + 11:]
@@ -155,16 +155,16 @@ def categorize_rest_YEAR_IN_THE_END():
             text = text_from_pdf(pdf_path)
             cut1 = text.rfind("Bibliography")
             cut2 = text.rfind("References")
-            if (cut1 == -1):
+            if cut1 == -1:
                 text = text[cut2 + 9:]
-            elif (cut2 == -1):
+            elif cut2 == -1:
                 text = text[cut1 + 11:]
-            elif (cut2 > cut1):
+            elif cut2 > cut1:
                 text = text[cut2 + 9:]
             else:
                 text = text[cut1 + 11:]
             bibliography = re.findall("[^0-9][1-2][0-9][0-9][0-9][^0-9]{0,1}[^~]{0,4}\\n", text)
-            if (len(bibliography) >= 10):
+            if len(bibliography) >= 10:
                 s.append(ref[29:-3])
     f = open("ReferencesStaff/CategoryBIBLIOGRAPHY_YEAR_IN_THE_END.json", "w")
     json.dump(s, f)
@@ -184,11 +184,11 @@ def deal_with_YEAR_IN_THE_END():
             text = text_from_pdf(pdf_path)
             cut1 = text.rfind("Bibliography")
             cut2 = text.rfind("References")
-            if (cut1 == -1):
+            if cut1 == -1:
                 text = text[cut2 + 9:]
-            elif (cut2 == -1):
+            elif cut2 == -1:
                 text = text[cut1 + 11:]
-            elif (cut2 > cut1):
+            elif cut2 > cut1:
                 text = text[cut2 + 9:]
             else:
                 text = text[cut1 + 11:]
@@ -196,8 +196,8 @@ def deal_with_YEAR_IN_THE_END():
             bibliography = re.split("[^0-9][1-2][0-9][0-9][0-9][^0-9]{0,1}[^~]{0,4}\\n", text)
             d_bibl = {}
             for cnt in range(len(bibliography)):
-                if (len(bibliography[cnt]) > 15):
-                    if (cnt < len(years)):
+                if len(bibliography[cnt]) > 15:
+                    if cnt < len(years):
                         bibliography[cnt] = bibliography[cnt] + years[cnt]
                     bibliography[cnt] = bibliography[cnt].replace("\n", " ")
                     d_bibl[cnt + 1] = bibliography[cnt]

@@ -14,7 +14,7 @@ def get_authors():
             ref1 = ref[:-4]
             r = requests.get(ref1)
             page = BeautifulSoup(r.text, "html.parser")
-            authors_page = page.find("ul", attrs={"class":"authors"})
+            authors_page = page.find("ul", attrs={"class": "authors"})
             authors = [i.text for i in authors_page.find_all("li")]
             with open("Authors1/" + ref[29:-3] + "json", "w") as f_out:
                 json.dump(authors, f_out)

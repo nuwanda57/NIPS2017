@@ -6,12 +6,12 @@ import urllib.request
 
 def get_article_refs():
     main_page = requests.get("https://papers.nips.cc/book/advances-in-"
-                       "neural-information-processing-systems-30-2017")
+                             "neural-information-processing-systems-30-2017")
     main_page_soup = BeautifulSoup(main_page.text, "html.parser")
     lists = main_page_soup.find_all("li")
-    articles_names = [x.find("a", attrs={"class":False}).get("href") for x in lists]
+    articles_names = [x.find("a", attrs={"class": False}).get("href") for x in lists]
     for r in articles_names:
-        if (r.find("paper") == -1):
+        if r.find("paper") == -1:
             articles_names.remove(r)
     articles_refs = []
     for i in range(0, len(articles_names)):
@@ -60,10 +60,10 @@ def download_reviews():
         refs = page_soup.find_all('a')
         review_page_ref = ""
         for r in refs:
-            if (r.text == "[Reviews]"):
+            if r.text == "[Reviews]":
                 review_page_ref = r.get('href')
                 break
-        if (review_page_ref == ""):
+        if review_page_ref == "":
             raise 42
         urllib.request.urlretrieve("https:" + review_page_ref, "Reviews/" + page_ref[29:] + ".html")
 
