@@ -6,7 +6,7 @@ def main():
     df = pd.DataFrame(columns=["name", "id", "authors", "ref", "text", "abstract", "review_html",
                                "review_text", "bibliography", "processed_text", "intro", "conclusion", "related",
                                "acknowledgements", "only_words", "n_gram",
-    ])
+                               ])
     with open("articles_refs.json") as i_file:
         articles_refs = json.load(i_file)
     cnt = 1
@@ -56,14 +56,15 @@ def main():
         with open("No_Preprocessing/Authors1/" + name + ".json") as f_in:
             authors = "\n".join(json.load(f_in))
         df = df.append({
-            "name" : name, "id" : id, "authors" : authors, "ref" : ref, "text" : text,
-            "abstract" : abstract, "review_text" : review_text, "bibliography" : references,
-            "processed_text" : only_text, "intro" : intro, "conclusion" : conclusion, "related" : related,
-            "acknowledgements" : acknow, "only_words" : clean_text, "n_gram" : stat
+            "name": name, "id": id, "authors": authors, "ref": ref, "text": text,
+            "abstract": abstract, "review_text": review_text, "bibliography": references,
+            "processed_text": only_text, "intro": intro, "conclusion": conclusion, "related": related,
+            "acknowledgements": acknow, "only_words": clean_text, "n_gram": stat
         }, ignore_index=True)
         cnt += 1
     df = df.set_index("name")
     df.to_csv("visual_main_table.csv")
+
 
 if __name__ == "__main__":
     main()

@@ -1,6 +1,5 @@
 import json
 
-
 SECTION_STATISTICS = []
 POPULAR_SECTIONS = set()
 
@@ -285,8 +284,8 @@ def divide_text(text):
                             prev = number
                             i += 1
                             continue
-        if number - prev <= 2 and sections[i].find(str(number) + "." + "1") != -1\
-                              and sections[i].find(str(number) + "." + "2") != -1:
+        if number - prev <= 2 and sections[i].find(str(number) + "." + "1") != -1 \
+                and sections[i].find(str(number) + "." + "2") != -1:
             prev = number
             i += 1
             continue
@@ -618,6 +617,7 @@ def section_processing():
 
 def main():
     section_processing()
+
 
 if __name__ == "__main__":
     main()

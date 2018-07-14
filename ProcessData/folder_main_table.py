@@ -3,14 +3,15 @@ import json
 
 
 def main():
-    df = pd.DataFrame(columns=["name", "id", "authors", "ref", "No_Preprocessing/Articles/", "No_Preprocessing/ArticleText/",
-                               "No_Preprocessing/Abstracts/", "No_Preprocessing/Reviews/",
-                               "No_Preprocessing/ReviewText/", "No_Preprocessing/ReferencesText/",
-                               "SectionProcessing/OnlyText/", "SectionProcessing/Sections/IntroText/",
-                               "SectionProcessing/Sections/ConclusionText/", "SectionProcessing/Sections/RelatedText/",
-                               "SectionProcessing/Sections/AcknowledgementsText/"
-                               "TextCleaning/CleanText1/", "TextCleaning/Statistics1/",
-    ])
+    df = pd.DataFrame(
+        columns=["name", "id", "authors", "ref", "No_Preprocessing/Articles/", "No_Preprocessing/ArticleText/",
+                 "No_Preprocessing/Abstracts/", "No_Preprocessing/Reviews/",
+                 "No_Preprocessing/ReviewText/", "No_Preprocessing/ReferencesText/",
+                 "SectionProcessing/OnlyText/", "SectionProcessing/Sections/IntroText/",
+                 "SectionProcessing/Sections/ConclusionText/", "SectionProcessing/Sections/RelatedText/",
+                 "SectionProcessing/Sections/AcknowledgementsText/"
+                 "TextCleaning/CleanText1/", "TextCleaning/Statistics1/",
+                 ])
     with open("articles_refs.json") as i_file:
         articles_refs = json.load(i_file)
     cnt = 1
@@ -53,19 +54,20 @@ def main():
         with open("No_Preprocessing/Authors1/" + name + ".json") as f_in:
             authors = "\n".join(json.load(f_in))
         df = df.append({
-            "name" : name, "id" : id, "authors" : authors, "ref" : ref, "No_Preprocessing/Articles/" : articles,
-            "No_Preprocessing/ArticleText/" : text,
-            "No_Preprocessing/Abstracts/" : abstract, "No_Preprocessing/Reviews/" : review,
-            "No_Preprocessing/ReviewText/" : review_text, "No_Preprocessing/ReferencesText/" : references,
-            "SectionProcessing/OnlyText/" : only_text, "SectionProcessing/Sections/IntroText/" : intro,
-            "SectionProcessing/Sections/ConclusionText/" : conclusion,
-            "SectionProcessing/Sections/RelatedText/" : related,
-            "SectionProcessing/Sections/AcknowledgementsText/" : acknow,
-            "TextCleaning/CleanText1/" : clean_text, "TextCleaning/Statistics1/" : stat
+            "name": name, "id": id, "authors": authors, "ref": ref, "No_Preprocessing/Articles/": articles,
+            "No_Preprocessing/ArticleText/": text,
+            "No_Preprocessing/Abstracts/": abstract, "No_Preprocessing/Reviews/": review,
+            "No_Preprocessing/ReviewText/": review_text, "No_Preprocessing/ReferencesText/": references,
+            "SectionProcessing/OnlyText/": only_text, "SectionProcessing/Sections/IntroText/": intro,
+            "SectionProcessing/Sections/ConclusionText/": conclusion,
+            "SectionProcessing/Sections/RelatedText/": related,
+            "SectionProcessing/Sections/AcknowledgementsText/": acknow,
+            "TextCleaning/CleanText1/": clean_text, "TextCleaning/Statistics1/": stat
         }, ignore_index=True)
         cnt += 1
     df = df.set_index("name")
     df.to_csv("folder_main_table.csv")
+
 
 if __name__ == "__main__":
     main()

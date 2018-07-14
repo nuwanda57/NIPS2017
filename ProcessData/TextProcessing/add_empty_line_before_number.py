@@ -25,14 +25,14 @@ def process_article1(text1):
                     text = text[:i + 2] + "\n" + text[i + 3:]
                 i += 2
             # "\n?1\n" --> "\n\n1\n"
-            elif (text[i + 1] == "\n" or text[i + 1] == " ") and\
+            elif (text[i + 1] == "\n" or text[i + 1] == " ") and \
                     (ord(text[i - 1]) >= 128 or ord(text[i - 1]) < 32) and text[i - 2] == "\n":
                 text = text[:i - 1] + "\n" + text[i:]
                 if text[i + 2] == " ":
                     text = text[:i + 1] + "\n" + text[i + 2:]
                 i += 1
             # "\n1.1\n" --> "\n\n1.1\n"
-            elif text[i - 1] == "\n" and text[i + 1] == "." and text[i + 2].isdigit()\
+            elif text[i - 1] == "\n" and text[i + 1] == "." and text[i + 2].isdigit() \
                     and (text[i + 3] == "\n" or text[i + 3] == " "):
                 text = text[:i] + "\n" + text[i:]
                 if text[i + 4] == " ":
@@ -62,9 +62,9 @@ def process_article2(text):
             sections.pop(it)
         elif par[0].isdigit() and par[0] != "0" and (len(par) == 1 or par[1] == "\n" or par[1] == " "):
             it += 1
-        elif par[0].isdigit() and par[0] != "0" and par[1] == "." and\
-                ((len(par) == 3 and par[2].isdigit()) or (len(par) > 3 and par[2].isdigit()\
-                                                                  and (par[3] == "\n" or par[3] == " "))):
+        elif par[0].isdigit() and par[0] != "0" and par[1] == "." and \
+                ((len(par) == 3 and par[2].isdigit()) or (len(par) > 3 and par[2].isdigit()
+                                                          and (par[3] == "\n" or par[3] == " "))):
             it += 1
         else:
             if par[0] == "\n":
@@ -89,8 +89,8 @@ def process_article3(text):
                 sections[it - 1] += sections[it]
                 sections.pop(it)
                 continue
-            if not (sentences[0][0].isdigit() and sentences[0][0] != "0"\
-                            and sentences[0][1] == "." and sentences[0][2].isdigit() and sentences[0][2] != "0"):
+            if not (sentences[0][0].isdigit() and sentences[0][0] != "0"
+                    and sentences[0][1] == "." and sentences[0][2].isdigit() and sentences[0][2] != "0"):
                 sections[it - 1] += sections[it]
                 sections.pop(it)
                 continue
@@ -105,8 +105,8 @@ def process_article3(text):
                 sections.pop(it)
                 continue
             next_sentences = sections[it + 1].split("\n")
-            if not (len(next_sentences[0]) >= 3 and next_sentences[0][0] == number and next_sentences[0][1] == "."\
-                            and next_sentences[0][2].isdigit() and next_sentences[0][2] != "0"):
+            if not (len(next_sentences[0]) >= 3 and next_sentences[0][0] == number and next_sentences[0][1] == "."
+                    and next_sentences[0][2].isdigit() and next_sentences[0][2] != "0"):
                 sections[it - 1] += sections[it]
                 sections.pop(it)
                 continue
@@ -208,6 +208,7 @@ def add_empty_line_before_numbers():
 
 def main():
     add_empty_line_before_numbers()
+
 
 if __name__ == "__main__":
     main()
